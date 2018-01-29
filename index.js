@@ -153,7 +153,8 @@ const getItems = (callback) => {
         QUANTITY as quantity, 
         EXPIRATION as expiration,
         ID as id 
-        FROM PANTRY`;
+        FROM PANTRY
+        ORDER BY EXPIRATION, NAME, QUANTITY`;
 
     db.query(selectQuery, [], (err, result) => {
         callback(err, result.rows.map(rowPostProcess));  
