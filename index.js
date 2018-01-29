@@ -218,6 +218,11 @@ const getValidatedExpiration = (request, response) => {
 
     const unixTime = Date.parse(expiration);
 
+    if (isNaN(unixTime)) {
+        userError(response, `${expiration} is not a valid date.`);
+        return;
+    }
+
     const reconvertedDate = new Date(unixTime).toISOString().split('T')[0];
 
     if (reconvertedDate !== expiration) {
