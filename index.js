@@ -65,6 +65,7 @@ const insertItem = (item, callback) => {
     const params = [item.name, item.expiration, item.quantity];
 
     db.query(query, params, (err, result) => {
+        console.log(result);
         callback(err, item);
     });
 };
@@ -125,7 +126,8 @@ const getItems = (callback) => {
     const selectQuery = `
         SELECT NAME as name, 
         QUANTITY as quantity, 
-        EXPIRATION as expiration 
+        EXPIRATION as expiration,
+        ID as id 
         FROM PANTRY`;
 
     db.query(selectQuery, [], (err, result) => {
