@@ -100,7 +100,7 @@ const updateItem = (item, callback) => {
             item.name, item.expiration, item.quantity, item.id];
     
         db.query(updateQuery, updateParams, (err, result) => {
-            callback(err, item);
+            callback(err, {present: true, item: item});
         });
     });
 };
@@ -118,7 +118,7 @@ const deleteItem = (item, callback) => {
         const deleteParams = [item.id];
     
         db.query(deleteQuery, deleteParams, (err, result) => {
-            callback(err, item);
+            callback(err, {present: true, item: item});
         });
     });
 };
