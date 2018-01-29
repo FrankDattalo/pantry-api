@@ -122,18 +122,22 @@ const deleteItem = (item, callback) => {
     });
 };
 
+const dateObjectToString = (item) => {
+    item.date = item.date.toLocaleDateString();
+    return item;
+};
+
 // function which is responsible for retrieving all the items from the database
 const getItems = (callback) => {
     const selectQuery = `
         SELECT NAME as name, 
         QUANTITY as quantity, 
-        EXPIRATION::DATE as expiration,
+        EXPIRATION as expiration,
         ID as id 
         FROM PANTRY`;
 
     db.query(selectQuery, [], (err, result) => {
-        console.log(result);
-        callback(err, result.rows);  
+        callback(err, result.rows.map(dateObjectToString));  
     });
 };
 
