@@ -71,19 +71,23 @@ const insertItem = (item, callback) => {
     });
 };
 
-const itemExists = (item, callback) => {
+const idExists = (id, callback) => {
     const query = `SELECT $1 IN (SELECT ID FROM PANTRY) as exists`;
-    const params = [item.id];
+    const params = [id];
 
     db.query(query, params, (err, result) => {
-        console.log(result);
-        callback(result.rows[0].exists);
+        callback(err, result.rows[0].exists);
     })
 };
 
 // function which is response for updating an item in the database
 const updateItem = (item, callback) => {
-    itemExists(item, (exists) => {
+    idExists(item.id, (err, exists) => {
+        if (err) {
+            callback(err, {});
+            return;
+        }
+
         if (!exists) {
             callback(undefined, {present: false, item: undefined});
             return;
@@ -105,25 +109,39 @@ const updateItem = (item, callback) => {
     });
 };
 
-// function which is responsible for deleting an item in the database
-const deleteItem = (item, callback) => {
-    itemExists(item, (exists) => {
+// function which is responsible for deleting an item in the database given
+// that item's id
+const deleteItem = (id, callback) => {
+    idExists(id, (err, exists) => {
+        if (err) {
+            callback(err, {present: false, item: undefined});
+            return;
+        }
+
         if (!exists) {
             callback(undefined, {present: false, item: undefined});
             return;
         }
 
-        const deleteQuery = `DELETE FROM PANTRY WHERE ID = $1`;
+        const deleteQuery = `DELETE FROM PANTRY WHERE ID = $1 RETURNING *`;
 
         const deleteParams = [item.id];
     
         db.query(deleteQuery, deleteParams, (err, result) => {
-            callback(err, {present: true, item: item});
+            if (err) {
+                callback(err, {present: false, item: undefined});
+                return;
+            }
+
+            callback(err, {
+                present: true, 
+                item: rowPostProcess(result.rows[0])
+            });
         });
     });
 };
 
-const dateObjectToString = (item) => {
+const rowPostProcess = (item) => {
     item.expiration = item.expiration.toLocaleDateString();
     return item;
 };
@@ -138,7 +156,7 @@ const getItems = (callback) => {
         FROM PANTRY`;
 
     db.query(selectQuery, [], (err, result) => {
-        callback(err, result.rows.map(dateObjectToString));  
+        callback(err, result.rows.map(rowPostProcess));  
     });
 };
 
