@@ -203,14 +203,16 @@ const getValidatedExpiration = (request, response) => {
 // if the parameter is invalid, a response will be sent indicating this
 // and the return value of this function will be undefined
 const getValidatedId = (request, response) => {
-    const id = request.params.id;
+    let id = request.params.id;
     
     if (!id) {
         userError(response, 'id was undefined.');
         return;
     }
 
-    if (typeof(id) !== 'number') {
+    id = parseInt(id);
+
+    if (isNaN(id)) {
         userError(response, 'id was not a number.');
         return;
     }
