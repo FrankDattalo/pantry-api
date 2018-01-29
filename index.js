@@ -132,7 +132,8 @@ const getItems = (callback) => {
         FROM PANTRY`;
 
     db.query(selectQuery, [], (err, result) => {
-      callback(err, result.rows);  
+        console.log(result);
+        callback(err, result.rows);  
     });
 };
 
