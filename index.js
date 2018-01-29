@@ -257,9 +257,9 @@ app.post('/', (request, response) => {
     });
 });
 
-// DELETE /{id}
+// DELETE /:id
 // Deletes the item with the given id, returns that item
-app.delete('/{id}', (request, response) => {
+app.delete('/:id', (request, response) => {
     
     const id = getValidatedId(request, response);
 
@@ -283,9 +283,9 @@ app.delete('/{id}', (request, response) => {
     });
 });
 
-// POST /{id}
+// POST /:id
 // Updates the item with the given id, returns that item
-app.post('/{id}', (request, response) => {
+app.post('/:id', (request, response) => {
 
     const name = getValidateName(request, response);
     const quantity = getValidatedQuantity(request, response);
