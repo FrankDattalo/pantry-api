@@ -127,7 +127,7 @@ const getItems = (callback) => {
     const selectQuery = `
         SELECT NAME as name, 
         QUANTITY as quantity, 
-        EXPIRATION as expiration,
+        EXPIRATION::DATE as expiration,
         ID as id 
         FROM PANTRY`;
 
