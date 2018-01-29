@@ -72,11 +72,12 @@ const insertItem = (item, callback) => {
 };
 
 const itemExists = (item, callback) => {
-    const query = `SELECT COUNT(*) FROM PANTRY WHERE ID = $1`;
+    const query = `SELECT $1 IN (SELECT ID FROM PANTRY) as exists`;
     const params = [item.id];
 
     db.query(query, params, (err, result) => {
-        callback(result.rows[0] === 1);
+        console.log(result);
+        callback(result.rows[0].exists);
     })
 };
 
