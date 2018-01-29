@@ -142,7 +142,7 @@ const deleteItem = (id, callback) => {
 };
 
 const rowPostProcess = (item) => {
-    item.expiration = item.expiration.toLocaleDateString();
+    item.expiration = item.expiration.toISOString().split('T')[0];
     return item;
 };
 
