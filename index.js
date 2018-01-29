@@ -60,7 +60,8 @@ const userError = (response, error) => {
 const insertItem = (item, callback) => {
     const query = `
         INSERT INTO PANTRY (NAME, EXPIRATION, QUANTITY) 
-        VALUES ($1, $2, $3)`;
+        VALUES ($1, $2, $3)
+        RETURNING ID`;
 
     const params = [item.name, item.expiration, item.quantity];
 
