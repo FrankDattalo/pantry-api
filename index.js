@@ -216,6 +216,15 @@ const getValidatedExpiration = (request, response) => {
         return;
     }
 
+    const unixTime = Date.parse(expiration);
+
+    const reconvertedDate = new Date(unixTime).toISOString().split('T')[0];
+
+    if (reconvertedDate !== expiration) {
+        userError(response, `${expiration} is not a valid date.`);
+        return;
+    }
+
     return expiration;
 };
 
