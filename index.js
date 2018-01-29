@@ -66,7 +66,7 @@ const insertItem = (item, callback) => {
     const params = [item.name, item.expiration, item.quantity];
 
     db.query(query, params, (err, result) => {
-        console.log(result);
+        item.id = result.rows[0].id;
         callback(err, item);
     });
 };
