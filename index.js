@@ -123,7 +123,7 @@ const deleteItem = (item, callback) => {
 };
 
 const dateObjectToString = (item) => {
-    item.date = item.date.toLocaleDateString();
+    item.expiration = item.expiration.toLocaleDateString();
     return item;
 };
 
