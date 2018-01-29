@@ -125,7 +125,7 @@ const deleteItem = (id, callback) => {
 
         const deleteQuery = `DELETE FROM PANTRY WHERE ID = $1 RETURNING *`;
 
-        const deleteParams = [item.id];
+        const deleteParams = [id];
     
         db.query(deleteQuery, deleteParams, (err, result) => {
             if (err) {
